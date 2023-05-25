@@ -8,11 +8,11 @@ app.use(cors())
 require("dotenv").config()
 const uri = `mongodb+srv://${process.env.wolf_meal_db_user}:${process.env.wolf_meal_db_password}@cluster0.bbqqyyb.mongodb.net/?retryWrites=true&w=majority`;
 const client = new MongoClient(uri, {
-    serverApi: {
-        version: ServerApiVersion.v1,
-        strict: true,
-        deprecationErrors: true,
-    }
+    // serverApi: {
+    //     version: ServerApiVersion.v1,
+    //     strict: true,
+    //     deprecationErrors: true,
+    // }
 });
 async function run() {
     try {
