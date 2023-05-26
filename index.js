@@ -85,12 +85,6 @@ async function run() {
             const result = await ordersCollection.updateOne(filter, updateDoc);
             res.send(result)
         })
-        app.get("/searchedResults", async(req,res)=>{
-            const query = {};
-            const cursor = mealsCollection.find(query);
-            const meals =  await cursor.toArray();
-            res.send(meals)
-        })
 
     } finally {
 
