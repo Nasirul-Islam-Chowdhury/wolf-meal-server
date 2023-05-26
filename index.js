@@ -19,7 +19,9 @@ async function run() {
         await client.connect();
         const mealsCollection = client.db("wolfMeal").collection("meals");
         const ordersCollection = client.db("wolfMeal").collection("orders");
-
+        app.get('/', (req, res) => {
+            res.send("running")
+        })
         app.get('/meals', async (req, res) => {
             const page = parseInt(req.query.page)
             const size = parseInt(req.query.size)
@@ -30,16 +32,10 @@ async function run() {
             res.send({ meals, count })
         })
         app.get('/newmeals', async (req, res) => {
-            const page = parseInt(req.query.page)
-            const size = parseInt(req.query.size)
             const query = {};
             const cursor = mealsCollection.find(query);
             const meals = await cursor.limit(3).toArray()
             res.send(meals)
-        })
-
-        app.get('/', (req, res) => {
-            res.send("running")
         })
         app.get('/orders', async (req, res) => {
             let query = {};
@@ -88,6 +84,12 @@ async function run() {
             }
             const result = await ordersCollection.updateOne(filter, updateDoc);
             res.send(result)
+        })
+        app.get("searchedResults", async(req,res)=>{
+            const query = {};
+            const cursor = mealsCollection.find(query);
+            const meals =  await cursor.toArray();
+            res.send(meals)
         })
 
     } finally {
