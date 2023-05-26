@@ -6,7 +6,6 @@ app.use(express.json());
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 app.use(cors())
 require("dotenv").config()
-
 const uri = `mongodb+srv://${process.env.wolf_meal_db_user}:${process.env.wolf_meal_db_password}@cluster0.bbqqyyb.mongodb.net/?retryWrites=true&w=majority`;
 const client = new MongoClient(uri, {
     serverApi: {
@@ -20,7 +19,6 @@ async function run() {
         await client.connect();
         const mealsCollection = client.db("wolfMeal").collection("meals");
         const ordersCollection = client.db("wolfMeal").collection("orders");
-
 
         app.get('/meals', async (req, res) => {
             const page = parseInt(req.query.page)
