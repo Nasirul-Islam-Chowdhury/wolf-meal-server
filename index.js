@@ -6,7 +6,7 @@ app.use(express.json());
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 app.use(cors())
 require("dotenv").config()
-const uri = `mongodb+srv://${process.env.wolf_meal_db_user}:${process.env.wolf_meal_db_password}@cluster0.bbqqyyb.mongodb.net/?retryWrites=true&w=majority`;
+const uri = `mongodb+srv://${process.env.meal_db_user}:${process.env.meal_db_pass}@cluster0.bbqqyyb.mongodb.net/?retryWrites=true&w=majority`;
 const client = new MongoClient(uri, {
     serverApi: {
         version: ServerApiVersion.v1,
@@ -16,12 +16,13 @@ const client = new MongoClient(uri, {
 });
 async function run() {
     try {
-        await client.connect();
+         client.connect();
         const mealsCollection = client.db("wolfMeal").collection("meals");
         const ordersCollection = client.db("wolfMeal").collection("orders");
         app.get('/', (req, res) => {
-            res.send("running")
+            res.send("Meal server running")
         })
+
         app.get('/meals', async (req, res) => {
             const page = parseInt(req.query.page)
             const size = parseInt(req.query.size)
@@ -70,13 +71,10 @@ async function run() {
         })
         app.patch('/orders/:id', async (req, res) => {
             const id = req.params.id;
-            console.log(req.body)
-            const { name, email, phone, address, message } = req.body;
+            const { phone, address, message } = req.body;
             const filter = { _id: new ObjectId(id) }
             const updateDoc = {
                 $set: {
-                    name: name,
-                    email: email,
                     phone: phone,
                     address: address,
                     message: message,
